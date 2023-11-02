@@ -1,72 +1,24 @@
+import { StyleSheet, Text, View, SafeAreaView } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import TabNavigations from './App/Navigations/TabNavigations';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <StatusBar style="auto" />
-
-      <View style={styles.header}>
-        <Text style={{fontSize:20, fontWeight:'bold'}}>
-          JBNU 스마트팜 IoT 서비스</Text>
-      </View>
-
-      <View style={styles.stateBox}>
-        <View style={styles.CelstateBox}>
-          <Text style={{fontSize:20, fontWeight:'bold'}}>
-            현재 온도</Text>
-          <Text>예시 섭씨 20°C</Text>
-        </View>
-        <View style={styles.HumstateBox}>
-          <Text style={{fontSize:20, fontWeight:'bold'}}>
-            현재 습도</Text>
-          <Text>예시 습도 50%</Text>
-        </View>
-      </View>
-      
-
-    </View>
+    <SafeAreaView style={styles.container}> 
+      <StatusBar backgroundColor="#fff" barStyle="dark-content" />
+      <NavigationContainer >
+        <TabNavigations />
+      </NavigationContainer>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    width: "100%",
+    height: "100%",
     backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  header: {
-    flexDirection: 'column',
-    justifyContent: 'space-evenly',
-    alignItems: 'baseline',
-    paddingTop: 50,
-  },
-  stateBox: {
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  CelstateBox: {
-    flex: 1,
-    margin: 20,
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderColor: 'gray',
-    borderWidth: 1,
-    height: '50%',
-    width: '50%',
-  },
-  HumstateBox: {
-    flex: 1,
-    margin: 20,
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderColor: 'gray',
-    borderWidth: 1,
-    height: '50%',
-    width: '50%',
   },
 });
 
