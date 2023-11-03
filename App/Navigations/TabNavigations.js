@@ -8,7 +8,7 @@ export default function TabNavigations() {
   const Tab = createBottomTabNavigator();
   return (
     <Tab.Navigator>
-      <Tab.Screen name="Home" component={HomeScreen} 
+      <Tab.Screen name="메인화면" component={HomeScreen} 
       options={{
         tabBarLabel: '메인화면', 
         tabBarIcon: ({color, size}) => (
@@ -16,7 +16,7 @@ export default function TabNavigations() {
         ),
       }} />
 
-      <Tab.Screen name="Map" component={MapScreen} 
+      <Tab.Screen name="지도" component={MapScreen} 
       options={{
         tabBarLabel: '지도', 
         tabBarIcon: ({color, size}) => (
