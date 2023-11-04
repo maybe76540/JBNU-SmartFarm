@@ -1,6 +1,7 @@
   import { View, Text, StyleSheet, SafeAreaView } from 'react-native'
   import React from 'react'
   import Home from '../Components/Home/Home'
+  import FarmNavigations from '../Navigations/FarmNavigations'
 
 
   export default function HomeScreen({navigation}) {
