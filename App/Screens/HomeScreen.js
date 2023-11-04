@@ -8,7 +8,7 @@
 
     return (
       <SafeAreaView style={styles.container}>
-        <FarmNavigations navigation={navigation}/>
+        <Home navigation={navigation}/>
       </SafeAreaView>
     )
   }
