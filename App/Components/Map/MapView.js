@@ -5,13 +5,15 @@ import MapView, { PROVIDER_GOOGLE, Marker } from 'react-native-maps';
 export default function MapVeiw() {
   return (
     <SafeAreaView>
-      <View>
-          <Text>Map 화면입니다.</Text>
-          <Text>Map 화면입니다.</Text>
-          <Text>Map 화면입니다.</Text>
-          <Text>Map 화면입니다.</Text>
-          <Text>Map 화면입니다.</Text>
-      </View>
+      <MapView // 셀프클로징해도 되지만 후의 마커를 위해서
+        style={{width: '100%', height: '100%'}}
+        initialRegion={{
+                latitude: 35.84570,
+                longitude: 127.12965,
+                latitudeDelta: 0.01,
+                longitudeDelta: 0.01,
+              }}
+        provider={PROVIDER_GOOGLE}/>
     </SafeAreaView>
   )
 }
