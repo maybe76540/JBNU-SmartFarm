@@ -16,13 +16,13 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "ios.config.googleMapsApiKey": "AIzaSyARRc94stLa9-XOFjskQb7wVu3D4ESPToU"
+      "ios.config.googleMapsApiKey": "숨김처리함"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff",
-        "android.config.googleMapsApiKey": "AIzaSyAg20k2SzQ431QwPclibebzTv04_IagqC0"
+        "android.config.googleMapsApiKey": "숨김처리함"
       }
     },
     "web": {
