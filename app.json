@@ -16,13 +16,18 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "ios.config.googleMapsApiKey": "AIzaSyARRc94stLa9-XOFjskQb7wVu3D4ESPToU"
+      "config": {
+        "googleMapsApiKey": "@env.GOOGLE_MAPS_API_KEY_FOR_IOS"
+      }
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff",
-        "android.config.googleMapsApiKey": "AIzaSyAg20k2SzQ431QwPclibebzTv04_IagqC0"
+        "config": {
+          "googleMapsApiKey": "@env.GOOGLE_MAPS_API_KEY_FOR_ANDROID"
+        }
+
       }
     },
     "web": {
