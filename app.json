@@ -16,26 +16,17 @@
     ],
     "ios": {
       "supportsTablet": true,
-<<<<<<< HEAD
       "config": {
         "googleMapsApiKey": "@env.GOOGLE_MAPS_API_KEY_FOR_IOS"
       }
-=======
-      "ios.config.googleMapsApiKey": "숨김처리함"
->>>>>>> b60a33c7c2973c067b76a8731928d1b398c5d6b6
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff",
-<<<<<<< HEAD
         "config": {
           "googleMapsApiKey": "@env.GOOGLE_MAPS_API_KEY_FOR_ANDROID"
         }
-
-=======
-        "android.config.googleMapsApiKey": "숨김처리함"
->>>>>>> b60a33c7c2973c067b76a8731928d1b398c5d6b6
       }
     },
     "web": {
