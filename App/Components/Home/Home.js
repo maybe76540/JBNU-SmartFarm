@@ -53,7 +53,8 @@ export default function Home() {
   return (
     <View>
       <View>
-        <View style={styles.container}>
+        {/* 날씨 정보 창 5일로 수정하고 가로로 스크롤 가능하게 수정 */}
+        <View style={styles.weather_container}>
           <View style={styles.weatherBox}>
             <Text>오늘 날씨</Text>
             <Text>{weather_kor[weatherData?.list[0]?.weather[0]?.main]}</Text>
@@ -82,7 +83,7 @@ export default function Home() {
 }
 
 const styles = StyleSheet.create({
-  container: {
+  weather_container: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
