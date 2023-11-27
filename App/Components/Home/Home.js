@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { StyleSheet, Text, View, SafeAreaView } from 'react-native';
+import { StyleSheet, Text, View, ScrollView } from 'react-native';
 import useLocation from '../Map/useLocation';
 import { Fontisto } from '@expo/vector-icons';
 
@@ -21,6 +21,17 @@ const icons = {
   Thunderstorm: "lightning",
   Atmosphere: "cloudy-gusts",
 }
+
+const date = new Date();
+const firstday = `${date.getMonth() + 1}월 ${date.getDate()}일`;
+date.setDate(date.getDate() + 1);
+const secondday = `${date.getMonth() + 1}월 ${date.getDate()}일`;
+date.setDate(date.getDate() + 1);
+const thirdday = `${date.getMonth() + 1}월 ${date.getDate()}일`;
+date.setDate(date.getDate() + 1);
+const fourthday = `${date.getMonth() + 1}월 ${date.getDate()}일`;
+date.setDate(date.getDate() + 1);
+const fifthday = `${date.getMonth() + 1}월 ${date.getDate()}일`;
 
 async function fetchWeatherData(latitude, longitude) {
   const response = await fetch(
@@ -52,50 +63,68 @@ export default function Home() {
 
   return (
     <View>
-      <View>
-        <View style={styles.container}>
+      {/* 아래 View는 일기예보 View */}
+      <View style={styles.weather_container}>
+        <View>
+          <Text style={{fontSize: 30, fontWeight: 'bold', marginHorizontal: 10, marginTop: 10}}>
+            일기예보</Text>
+        </View>
+        <ScrollView horizontal = {true} showsHorizontalScrollIndicator = {false}>
           <View style={styles.weatherBox}>
-            <Text>오늘 날씨</Text>
+            {/* <Text>오늘 날씨</Text> */}
+            <Text>{firstday} 날씨</Text>
             <Text>{weather_kor[weatherData?.list[0]?.weather[0]?.main]}</Text>
             <Text>{weatherData && parseFloat(weatherData.list[0].main.temp - 273.15).toFixed(1)} °C</Text>
             <Fontisto name={icons[weatherData?.list[0]?.weather[0]?.main]} size={20} color="black" />
           </View>
           <View style={styles.weatherBox}>
-            <Text>내일 날씨</Text>
+            <Text>{secondday} 날씨</Text>
             <Text>{weather_kor[weatherData?.list[8]?.weather[0]?.main]}</Text>
             <Text>{weatherData && parseFloat(weatherData.list[8].main.temp - 273.15).toFixed(1)} °C</Text>
             <Fontisto name={icons[weatherData?.list[8]?.weather[0]?.main]} size={20} color="black" />
           </View>
           <View style={styles.weatherBox}>
-            <Text>모레 날씨</Text>
+            <Text>{thirdday} 날씨</Text>
             <Text>{weather_kor[weatherData?.list[16]?.weather[0]?.main]}</Text>
             <Text>{weatherData && parseFloat(weatherData.list[16].main.temp - 273.15).toFixed(1)} °C</Text>
             <Fontisto name={icons[weatherData?.list[16]?.weather[0]?.main]} size={20} color="black" />    
           </View>
-        </View>
+          <View style={styles.weatherBox}>
+            <Text>{fourthday} 날씨</Text>
+            <Text>{weather_kor[weatherData?.list[24]?.weather[0]?.main]}</Text>
+            <Text>{weatherData && parseFloat(weatherData.list[24].main.temp - 273.15).toFixed(1)} °C</Text>
+            <Fontisto name={icons[weatherData?.list[24]?.weather[0]?.main]} size={20} color="black" />    
+          </View>
+          <View style={styles.weatherBox}>
+            <Text>{fifthday} 날씨</Text>
+            <Text>{weather_kor[weatherData?.list[32]?.weather[0]?.main]}</Text>
+            <Text>{weatherData && parseFloat(weatherData.list[32].main.temp - 273.15).toFixed(1)} °C</Text>
+            <Fontisto name={icons[weatherData?.list[32]?.weather[0]?.main]} size={20} color="black" />    
+          </View>
+        </ScrollView>
       </View>
-      {/* <View>
-        <Text>Home 화면</Text>
-      </View> */}
     </View>
   )
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    flexDirection: 'row',
+  weather_container: {
+    // flex: 1,
+    // justifyContent: 'center',
+    // alignItems: 'center',
+    //flexDirection: 'row',
+    borderRadius: 20,
+    borderColor: "black",
+    backgroundColor: "#fdd"
   },
   weatherBox: {
     width: 100,
     height: 100,
     borderRadius: 10,
     margin: 10,
-    marginTop: 150,
+    // marginTop: 150,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#FFD700',
+    backgroundColor: '#FFD',
   },
 });

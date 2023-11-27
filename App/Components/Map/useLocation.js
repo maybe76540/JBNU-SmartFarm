@@ -15,6 +15,7 @@ export default function useLocation() {
     let subscription = null;
 
     (async () => {
+      
       let { status } = await Location.requestForegroundPermissionsAsync();
       if (status !== 'granted') {
         setErrorMsg('위치정보에 대한 접근이 거부되었습니다');
