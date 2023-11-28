@@ -103,6 +103,7 @@ export default function Home() {
           </View>
         </ScrollView>
       </View>
+
     </View>
   )
 }
@@ -113,6 +114,7 @@ const styles = StyleSheet.create({
     // justifyContent: 'center',
     // alignItems: 'center',
     //flexDirection: 'row',
+    marginVertical: 5,
     borderRadius: 20,
     borderColor: "black",
     backgroundColor: "#fdd"
@@ -122,7 +124,6 @@ const styles = StyleSheet.create({
     height: 100,
     borderRadius: 10,
     margin: 10,
-    // marginTop: 150,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#FFD',
