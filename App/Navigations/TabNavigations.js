@@ -2,6 +2,7 @@ import React from 'react'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import HomeScreen from '../Screens/HomeScreen';
 import FarmStateScreen from '../Screens/FarmStateScreen';
+import DiaryScreen from '../Screens/DiaryScreen';
 import MapScreen from '../Screens/MapScreen';
 import { FontAwesome } from '@expo/vector-icons';
 
@@ -22,6 +23,14 @@ export default function TabNavigations() {
         tabBarLabel: '내 농장', 
         tabBarIcon: ({color, size}) => (
           <FontAwesome name="leaf" size={24} color="black" />
+        ),
+      }} />
+
+      <Tab.Screen name="영농일지" component={DiaryScreen} 
+      options={{
+        tabBarLabel: '영농일지', 
+        tabBarIcon: ({color, size}) => (
+          <FontAwesome name="book" size={24} color="black" />
         ),
       }} />
 
