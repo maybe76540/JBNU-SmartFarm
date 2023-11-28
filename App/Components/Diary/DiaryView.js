@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { StyleSheet, Text, View, ScrollView, TextInput, Button } from 'react-native';
+import { StyleSheet, Text, View, ScrollView, TextInput, Button, Alert } from 'react-native';
 
 export default function DiaryView() {
   const [entries, setEntries] = useState([]);
@@ -15,14 +15,28 @@ export default function DiaryView() {
   };
 
   const handleDelete = (id) => {
-    setEntries(entries.filter((entry) => entry.id !== id));
+    Alert.alert(
+      "일지 삭제",
+      "정말로 이 일지를 삭제하시겠습니까?\n삭제한 뒤에는 되돌릴 수 없습니다.",
+      [
+        {
+          text: "취소",
+          style: "cancel"
+        },
+        { 
+          text: "확인", 
+          onPress: () => setEntries(entries.filter((entry) => entry.id !== id)) 
+        }
+      ]
+    );
   };
 
-  const handleEdit = (id) => {
-    const editEntry = entries.find((entry) => entry.id === id);
-    setInput(editEntry.text);
-    handleDelete(id);
-  };
+  // 일지 수정 함수
+  // const handleEdit = (id) => {
+  //   const editEntry = entries.find((entry) => entry.id === id);
+  //   setInput(editEntry.text);
+  //   handleDelete(id);
+  // };
 
   return (
     <View style={styles.mainView}>
@@ -43,8 +57,8 @@ export default function DiaryView() {
             {/* 오른쪽으로 정렬 해야함 */}
             <View style={styles.addiView}>
               <Text style={styles.dateText}>{entry.date.toLocaleString()}</Text>
-              <Button title="Edit" onPress={() => handleEdit(entry.id)} />
-              <Button title="Delete" onPress={() => handleDelete(entry.id)} />
+              {/* <Button title="수정" onPress={() => handleEdit(entry.id)} /> */}
+              <Button title="삭제" onPress={() => handleDelete(entry.id)} />
             </View>
           </View>
         ))}
@@ -74,17 +88,19 @@ const styles = StyleSheet.create({
     borderWidth: 2,
   },
   diaryView: {
-    flexDirection: 'row',
+    flexDirection: 'column',
     //justifyContent: 'space-between',
     //alignItems: 'center',
-    borderBottomColor: 'black',
-    borderBottomWidth: 1,
+    borderColor: 'black',
+    borderWidth: 1,
+    borderRadius: 10,
     margin: 5,
   },
   addiView: {
     flexDirection: 'row', 
     alignItems: 'center',
     justifyContent: 'flex-end',
+    marginHorizontal: 10,
   },
   text: {
     fontSize: 20,
