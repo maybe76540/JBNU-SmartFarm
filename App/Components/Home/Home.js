@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react'
-import { StyleSheet, Text, View, ScrollView, TextInput, Button } from 'react-native';
+import { StyleSheet, Text, View, ScrollView, TextInput, Button, TouchableOpacity, Alert } from 'react-native';
 import useLocation from '../Map/useLocation';
+import Swiper from 'react-native-swiper'
 import { Fontisto } from '@expo/vector-icons';
+import { MaterialIcons } from '@expo/vector-icons';
 
 const weather_kor = {
   Clouds: "흐림", 
@@ -63,6 +65,7 @@ export default function Home() {
       .catch(error => console.error(error));
   }, [mapRegion]);
 
+  // todo list작업 추가 함수
   const handleAdd = () => {
     // const date = new Date();
     // const date_form = `${date.getFullYear()}년 ${date.getMonth() + 1}월 ${date.getDate()}일 
@@ -72,74 +75,112 @@ export default function Home() {
     setEntries([newEntry, ...entries]);
     setInput('');
   };
+  
+// todo list작업 삭제 함수
+  const handleDelete = (text) => {
+    Alert.alert(
+      "작업을 완료하셨습니까?",
+      "확인을 누르면 작업 목록의 작업이 삭제됩니다.\n삭제한 뒤에는 되돌릴 수 없습니다.",
+      [
+        {
+          text: "취소",
+          style: "cancel"
+        },
+        { 
+          text: "확인", 
+          onPress: () => setEntries(entries.filter((entry) => entry.text !== text)) 
+        }
+      ]
+    );
+  };
 
 
   return (
     <View>
-      {/* 광고 배너 추가 예정 */}
-
-      {/* 아래 View는 일기예보 View */}
-      <View style={styles.weather_container}>
-        <View>
-          <Text style={{fontSize: 30, fontWeight: 'bold', marginHorizontal: 10, marginTop: 10}}>
-            일기예보</Text>
-        </View>
-        <ScrollView horizontal = {true} showsHorizontalScrollIndicator = {false}>
-          <View style={styles.weatherBox}>
-            {/* <Text>오늘 날씨</Text> */}
-            <Text>{firstday} 날씨</Text>
-            <Text>{weather_kor[weatherData?.list[0]?.weather[0]?.main]}</Text>
-            <Text>{weatherData && parseFloat(weatherData.list[0].main.temp - 273.15).toFixed(1)} °C</Text>
-            <Fontisto name={icons[weatherData?.list[0]?.weather[0]?.main]} size={20} color="black" />
-          </View>
-          <View style={styles.weatherBox}>
-            <Text>{secondday} 날씨</Text>
-            <Text>{weather_kor[weatherData?.list[8]?.weather[0]?.main]}</Text>
-            <Text>{weatherData && parseFloat(weatherData.list[8].main.temp - 273.15).toFixed(1)} °C</Text>
-            <Fontisto name={icons[weatherData?.list[8]?.weather[0]?.main]} size={20} color="black" />
-          </View>
-          <View style={styles.weatherBox}>
-            <Text>{thirdday} 날씨</Text>
-            <Text>{weather_kor[weatherData?.list[16]?.weather[0]?.main]}</Text>
-            <Text>{weatherData && parseFloat(weatherData.list[16].main.temp - 273.15).toFixed(1)} °C</Text>
-            <Fontisto name={icons[weatherData?.list[16]?.weather[0]?.main]} size={20} color="black" />    
-          </View>
-          <View style={styles.weatherBox}>
-            <Text>{fourthday} 날씨</Text>
-            <Text>{weather_kor[weatherData?.list[24]?.weather[0]?.main]}</Text>
-            <Text>{weatherData && parseFloat(weatherData.list[24].main.temp - 273.15).toFixed(1)} °C</Text>
-            <Fontisto name={icons[weatherData?.list[24]?.weather[0]?.main]} size={20} color="black" />    
-          </View>
-          <View style={styles.weatherBox}>
-            <Text>{fifthday} 날씨</Text>
-            <Text>{weather_kor[weatherData?.list[32]?.weather[0]?.main]}</Text>
-            <Text>{weatherData && parseFloat(weatherData.list[32].main.temp - 273.15).toFixed(1)} °C</Text>
-            <Fontisto name={icons[weatherData?.list[32]?.weather[0]?.main]} size={20} color="black" />    
-          </View>
-        </ScrollView>
-      </View>
-
-      {/* todo list 추가 예정 */}
-      <View style={styles.todoListView}>
-        <Text style={{fontSize: 30, fontWeight: 'bold', marginHorizontal: 10, marginTop: 10}}>
-          작업 스케줄 및 할 일 목록</Text>
-        <View style={styles.inputView}>
-          <TextInput
-            value={input}
-            onChangeText={setInput}
-            placeholder='해야 할 일을 관리 할 수 있어요'
-            style={styles.textInput}
-          />
-          <Button title="등록" onPress={handleAdd} />
-        </View>
-        <ScrollView>
-          {entries.map((entry) => (
-            <View style={styles.todoView} key={entry.id}>
-              <Text style={styles.text}>{entry.text}</Text>
+      <ScrollView style={{width: "100%", height: "100%"}}>
+        {/* 광고 배너 추가 예정 */}
+        <View style={styles.swiper}>
+          <Swiper showsButtons={false} autoplay showsPagination={false} autoplayTimeout={3}>
+            <View style={styles.slide1}>
+              <Text style={styles.swipertext}>광고 배너 1번, Hello Swiper</Text>
             </View>
-          ))}
-        </ScrollView>
-      </View>
+            <View style={styles.slide2}>
+              <Text style={styles.swipertext}>광고 배너 2번, Hello ReactNative</Text>
+            </View>
+            <View style={styles.slide3}>
+              <Text style={styles.swipertext}>광고 배너 3번, Hello JavaScript</Text>
+            </View>
+          </Swiper>
+        </View>
+
+        {/* 아래 View는 일기예보 View */}
+        <View style={styles.weather_container}>
+          <View>
+            <Text style={{fontSize: 30, fontWeight: '600', marginHorizontal: 10, marginTop: 10}}>
+              일기예보</Text>
+          </View>
+          <ScrollView horizontal = {true} showsHorizontalScrollIndicator = {false}>
+            <View style={styles.weatherBox}>
+              {/* <Text>오늘 날씨</Text> */}
+              <Text>{firstday} 날씨</Text>
+              <Text>{weather_kor[weatherData?.list[0]?.weather[0]?.main]}</Text>
+              <Text>{weatherData && parseFloat(weatherData.list[0].main.temp - 273.15).toFixed(1)} °C</Text>
+              <Fontisto name={icons[weatherData?.list[0]?.weather[0]?.main]} size={20} color="black" />
+            </View>
+            <View style={styles.weatherBox}>
+              <Text>{secondday} 날씨</Text>
+              <Text>{weather_kor[weatherData?.list[8]?.weather[0]?.main]}</Text>
+              <Text>{weatherData && parseFloat(weatherData.list[8].main.temp - 273.15).toFixed(1)} °C</Text>
+              <Fontisto name={icons[weatherData?.list[8]?.weather[0]?.main]} size={20} color="black" />
+            </View>
+            <View style={styles.weatherBox}>
+              <Text>{thirdday} 날씨</Text>
+              <Text>{weather_kor[weatherData?.list[16]?.weather[0]?.main]}</Text>
+              <Text>{weatherData && parseFloat(weatherData.list[16].main.temp - 273.15).toFixed(1)} °C</Text>
+              <Fontisto name={icons[weatherData?.list[16]?.weather[0]?.main]} size={20} color="black" />    
+            </View>
+            <View style={styles.weatherBox}>
+              <Text>{fourthday} 날씨</Text>
+              <Text>{weather_kor[weatherData?.list[24]?.weather[0]?.main]}</Text>
+              <Text>{weatherData && parseFloat(weatherData.list[24].main.temp - 273.15).toFixed(1)} °C</Text>
+              <Fontisto name={icons[weatherData?.list[24]?.weather[0]?.main]} size={20} color="black" />    
+            </View>
+            <View style={styles.weatherBox}>
+              <Text>{fifthday} 날씨</Text>
+              <Text>{weather_kor[weatherData?.list[32]?.weather[0]?.main]}</Text>
+              <Text>{weatherData && parseFloat(weatherData.list[32].main.temp - 273.15).toFixed(1)} °C</Text>
+              <Fontisto name={icons[weatherData?.list[32]?.weather[0]?.main]} size={20} color="black" />    
+            </View>
+          </ScrollView>
+        </View>
+
+        {/* todo list 추가 예정 */}
+        <View style={styles.todoListView}>
+          <Text style={{fontSize: 30, fontWeight: '600', marginHorizontal: 10, marginTop: 10}}>
+            작업 스케줄 및 할 일 목록</Text>
+          <View style={styles.inputView}>
+            <TextInput
+              value={input}
+              onChangeText={setInput}
+              placeholder='해야 할 일을 관리 할 수 있어요'
+              style={styles.textInput}
+            />
+            <Button title="등록" onPress={handleAdd} />
+          </View>
+          <ScrollView showsHorizontalScrollIndicator = {false}>
+            {entries.map((entry) => (
+              <View style={styles.todoView} key={entry.text}>
+                <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                  <TouchableOpacity onPress={() => handleDelete(entry.text)}>
+                    <MaterialIcons name="check-box-outline-blank" size={20} color="black" />
+                  </TouchableOpacity>
+                  <Text style={styles.text}>{entry.text}</Text>
+                </View>
+              </View>
+            ))}
+          </ScrollView>
+        </View>
+      </ScrollView>
     </View>
   )
 }
@@ -166,7 +207,7 @@ const styles = StyleSheet.create({
   },
   todoListView: {
     width: '100%',
-    height: 200,
+    height: 250,
     justifyContent: 'flex-start',
     alignItems: 'center',
     marginVertical: 5,
@@ -190,19 +231,50 @@ const styles = StyleSheet.create({
     borderWidth: 2,
   },
   todoView: {
-    //flexDirection: 'column',
-    //justifyContent: 'space-between',
-    //alignItems: 'center',
-    // borderColor: 'black',
-    // borderWidth: 1,
-    // borderRadius: 10,
+    //flexDirection: 'row',
+    alignItems: 'center',
+    borderColor: 'black',
+    borderWidth: 1,
+    borderRadius: 10,
+    marginVertical: 5,
+  },
+  // todoList에서 사용 중
+  text: {
+    width: '80%',
+    fontSize: 18,
+    fontWeight: '500',
+    color: 'black',
+    padding: 15,
+  },
+  // 아래는 광고 배너
+  swiper: {
+    width: "100%",
+    height: 100,
     // margin: 5,
   },
-  text: {
-    width: '100%',
-    fontSize: 15,
-    fontWeight: 'normal',
-    color: 'black',
-    padding: 20,
+  slide1: {
+    // flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#9DD6EB'
   },
+  slide2: {
+    // flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#97CAE5'
+  },
+  slide3: {
+    // flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#92BBD9'
+  },
+  swipertext: {
+    width: '80%',
+    fontSize: 18,
+    fontWeight: '500',
+    color: 'black',
+    padding: 40,
+  }
 });

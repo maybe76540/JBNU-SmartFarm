@@ -51,7 +51,7 @@ export default function DiaryView() {
         <Button title="등록" onPress={handleAdd} />
       </View>
       
-      <ScrollView>
+      <ScrollView style={{height: "100%"}}>
         {entries.map((entry) => (
           <View style={styles.diaryView} key={entry.id}>
             <Text style={styles.text}>{entry.text}</Text>
