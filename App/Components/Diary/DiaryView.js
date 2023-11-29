@@ -14,6 +14,7 @@ export default function DiaryView() {
     setInput('');
   };
 
+  // 일지 삭제 함수
   const handleDelete = (id) => {
     Alert.alert(
       "일지 삭제",
@@ -50,7 +51,7 @@ export default function DiaryView() {
         <Button title="등록" onPress={handleAdd} />
       </View>
       
-      <ScrollView>
+      <ScrollView style={{height: "100%"}}>
         {entries.map((entry) => (
           <View style={styles.diaryView} key={entry.id}>
             <Text style={styles.text}>{entry.text}</Text>
@@ -113,8 +114,4 @@ const styles = StyleSheet.create({
     fontWeight: 'normal',
     color: 'black',
   }
-  // container: {
-  //     flex: 1,
-  //     backgroundColor: '#fff',
-  // },
-  });
+});
