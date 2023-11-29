@@ -14,6 +14,7 @@ export default function DiaryView() {
     setInput('');
   };
 
+  // 일지 삭제 함수
   const handleDelete = (id) => {
     Alert.alert(
       "일지 삭제",
@@ -113,8 +114,4 @@ const styles = StyleSheet.create({
     fontWeight: 'normal',
     color: 'black',
   }
-  // container: {
-  //     flex: 1,
-  //     backgroundColor: '#fff',
-  // },
-  });
+});

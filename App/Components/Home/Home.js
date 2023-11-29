@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { StyleSheet, Text, View, ScrollView } from 'react-native';
+import { StyleSheet, Text, View, ScrollView, TextInput, Button } from 'react-native';
 import useLocation from '../Map/useLocation';
 import { Fontisto } from '@expo/vector-icons';
 
@@ -52,6 +52,9 @@ export default function Home() {
   const { city, region, district, mapRegion } = useLocation();
   const [weatherData, setWeatherData] = useState(null);
 
+  const [entries, setEntries] = useState([]);
+  const [input, setInput] = useState('');
+
   useEffect(() => {
     if (!mapRegion) return; // 위치 정보가 아직 없으면 아무 것도 하지 않음
 
@@ -60,9 +63,21 @@ export default function Home() {
       .catch(error => console.error(error));
   }, [mapRegion]);
 
+  const handleAdd = () => {
+    // const date = new Date();
+    // const date_form = `${date.getFullYear()}년 ${date.getMonth() + 1}월 ${date.getDate()}일 
+    //   ${date.getHours()}시 ${date.getMinutes()}분`;
+    //const newEntry = { text: input, date: date_form, id: date.getTime() };
+    const newEntry = { text: input };
+    setEntries([newEntry, ...entries]);
+    setInput('');
+  };
+
 
   return (
     <View>
+      {/* 광고 배너 추가 예정 */}
+
       {/* 아래 View는 일기예보 View */}
       <View style={styles.weather_container}>
         <View>
@@ -104,6 +119,27 @@ export default function Home() {
         </ScrollView>
       </View>
 
+      {/* todo list 추가 예정 */}
+      <View style={styles.todoListView}>
+        <Text style={{fontSize: 30, fontWeight: 'bold', marginHorizontal: 10, marginTop: 10}}>
+          작업 스케줄 및 할 일 목록</Text>
+        <View style={styles.inputView}>
+          <TextInput
+            value={input}
+            onChangeText={setInput}
+            placeholder='해야 할 일을 관리 할 수 있어요'
+            style={styles.textInput}
+          />
+          <Button title="등록" onPress={handleAdd} />
+        </View>
+        <ScrollView>
+          {entries.map((entry) => (
+            <View style={styles.todoView} key={entry.id}>
+              <Text style={styles.text}>{entry.text}</Text>
+            </View>
+          ))}
+        </ScrollView>
+      </View>
     </View>
   )
 }
@@ -127,5 +163,46 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#FFD',
+  },
+  todoListView: {
+    width: '100%',
+    height: 200,
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+    marginVertical: 5,
+    borderRadius: 20,
+    borderColor: "black",
+    backgroundColor: '#FCC',
+  },
+  inputView: {
+    flexDirection: 'row',
+    // justifyContent: 'center',
+    alignItems: 'center',
+  },
+  textInput: {
+    width: "60%",
+    marginTop: 10,
+    marginBottom: 10,
+    paddingHorizontal: 10,
+    height: 35,
+    borderRadius: 10,
+    borderColor: 'gray',
+    borderWidth: 2,
+  },
+  todoView: {
+    //flexDirection: 'column',
+    //justifyContent: 'space-between',
+    //alignItems: 'center',
+    // borderColor: 'black',
+    // borderWidth: 1,
+    // borderRadius: 10,
+    // margin: 5,
+  },
+  text: {
+    width: '100%',
+    fontSize: 15,
+    fontWeight: 'normal',
+    color: 'black',
+    padding: 20,
   },
 });
