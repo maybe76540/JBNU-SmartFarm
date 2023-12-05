@@ -5,6 +5,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import Farm1 from '../Components/StateView/Farm1'
 import Farm2 from '../Components/StateView/Farm2'
 import Farm3 from '../Components/StateView/Farm3'
+import TestView from '../Components/StateView/TestView'
 
 const Stack = createStackNavigator();
 
@@ -36,6 +37,8 @@ export default function FarmNavigations({navigation}) {
           <Menu.Item onPress={() => navigateToFarm('Farm2')} title="Farm2" />
           <Divider />
           <Menu.Item onPress={() => navigateToFarm('Farm3')} title="Farm3" />
+          <Divider />
+          <Menu.Item onPress={() => navigateToFarm('TestView')} title="Test" />
         </Menu>
       </View>
 
@@ -43,6 +46,7 @@ export default function FarmNavigations({navigation}) {
         <Stack.Screen name="Farm1" component={Farm1} options={{headerShown: false}} />
         <Stack.Screen name="Farm2" component={Farm2} options={{headerShown: false}} />
         <Stack.Screen name="Farm3" component={Farm3} options={{headerShown: false}} />
+        <Stack.Screen name="TestView" component={TestView} options={{headerShown: false}} />
       </Stack.Navigator>
     </Provider>
   )
