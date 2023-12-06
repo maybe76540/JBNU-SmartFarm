@@ -26,23 +26,3 @@ export default function MapVeiw() {
     </SafeAreaView>
   )
 }
-
-// import React, { useState, useEffect } from 'react';
-// import { View, Text } from 'react-native';
-
-// export default function App() {
-//   const [data, setData] = useState({});
-
-//   useEffect(() => {
-//     fetch('http://127.20.10.8:5000/sensors')
-//       .then(response => response.json())
-//       .then(json => setData(json));
-//   }, []);
-
-//   return (
-//     <View>
-//       <Text>Temperature: {data.temperature}</Text>
-//       <Text>Humidity: {data.humidity}</Text>
-//     </View>
-//   );
-// }
