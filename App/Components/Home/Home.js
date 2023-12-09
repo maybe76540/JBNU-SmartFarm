@@ -5,6 +5,9 @@ import Swiper from 'react-native-swiper'
 import { Fontisto } from '@expo/vector-icons';
 import { MaterialIcons } from '@expo/vector-icons';
 
+import firebase from 'firebase/compat/app';  // modify this line
+import '../../../firebaseConfig'; // import firebase configuration
+
 const weather_kor = {
   Clouds: "흐림", 
   Clear: "맑음",
@@ -57,6 +60,27 @@ export default function Home() {
   const [entries, setEntries] = useState([]);
   const [input, setInput] = useState('');
 
+  const [data, setData] = useState([]);
+  const [showAlert, setShowAlert] = useState(false);
+
+  useEffect(() => {
+      firebase.database().ref('/').on('value', (snapshot) => {
+        let value = snapshot.val();
+        setData(value);
+  
+        if (value && value.temperature && value.temperature >= 20) { // 임계값
+            setShowAlert(true);
+        } else {
+            setShowAlert(false);
+        }
+      });
+
+      // Clean-up function
+      return () => {
+      firebase.database().ref('/').off('value');
+      };
+  }, []);
+
   useEffect(() => {
     if (!mapRegion) return; // 위치 정보가 아직 없으면 아무 것도 하지 않음
 
@@ -98,7 +122,8 @@ export default function Home() {
   return (
     <View>
       <ScrollView style={{width: "100%", height: "100%"}}>
-        {/* 광고 배너 추가 예정 */}
+
+        {/* 광고 배너 View */}
         <View style={styles.swiper}>
           <Swiper showsButtons={false} autoplay showsPagination={false} autoplayTimeout={3}>
             <View style={styles.slide1}>
@@ -111,6 +136,23 @@ export default function Home() {
               <Text style={styles.swipertext}>광고 배너 3번, Hello JavaScript</Text>
             </View>
           </Swiper>
+        </View>
+
+        {/* 경고 알림 View */}
+        <View>
+          <Text>온도 온도 온도 온도</Text>
+          {data && data.temperature ? (
+            <>
+              {showAlert && (
+                <View style={styles.alertBox}>
+                  <Text style={styles.alertText}>주의! 현재 Farm1 온도가 너무 높습니다.</Text>
+                </View>
+              )}
+            </>
+          ) : (
+            <Text>Loading...</Text>
+          )}
+
         </View>
 
         {/* 아래 View는 일기예보 View */}
@@ -154,7 +196,7 @@ export default function Home() {
           </ScrollView>
         </View>
 
-        {/* todo list 추가 예정 */}
+        {/* todo list View */}
         <View style={styles.todoListView}>
           <Text style={{fontSize: 30, fontWeight: '600', marginHorizontal: 10, marginTop: 10}}>
             작업 스케줄 및 할 일 목록</Text>
@@ -180,6 +222,7 @@ export default function Home() {
             ))}
           </ScrollView>
         </View>
+
       </ScrollView>
     </View>
   )

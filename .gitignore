@@ -3,6 +3,9 @@
 # API keys
 api_keys.env
 
+# database
+firebaseConfig.js
+
 # dependencies
 node_modules/
 
