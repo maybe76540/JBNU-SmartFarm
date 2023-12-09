@@ -3,7 +3,7 @@ import { StyleSheet, Text, View, ScrollView, Image } from 'react-native';
 import firebase from 'firebase/compat/app';  // modify this line
 import '../../../firebaseConfig'; // import firebase configuration
 
-export default function SampleView() {
+export default function Module1() {
     const [data, setData] = useState([]);
     const [imageUrl, setImageUrl] = useState(null);
 
@@ -52,8 +52,6 @@ export default function SampleView() {
       return null;
     }
   
-    
-
   return (
     <ScrollView style={styles.container}>
       <View style={styles.header}>

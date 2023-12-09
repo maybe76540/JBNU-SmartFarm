@@ -3,13 +3,13 @@ import { StyleSheet, Text, View, ScrollView, Image } from 'react-native';
 import firebase from 'firebase/compat/app';  // modify this line
 import '../../../firebaseConfig'; // import firebase configuration
 
-export default function SampleView() {
+export default function Module2() {
     const [data, setData] = useState([]);
     const [imageUrl, setImageUrl] = useState(null);
 
     useEffect(() => {
       const fetchData = () => {
-        firebase.database().ref('/nongiot1_realtime').on('value', (snapshot) => {
+        firebase.database().ref('/nongiot2_realtime').on('value', (snapshot) => {
           setData(snapshot.val());
           });
       };
@@ -18,7 +18,7 @@ export default function SampleView() {
 
       // Clean-up function
       return () => {
-      firebase.database().ref('/nongiot1_realtime').off('value');
+      firebase.database().ref('/nongiot2_realtime').off('value');
       };
     }, []);
 
@@ -40,7 +40,7 @@ export default function SampleView() {
       loadImage();
   
       // nongiot1_pic/current_time 노드 변경 확인 리스너
-      const currentTimeRef = firebase.database().ref('/nongiot1_pic/current_time');
+      const currentTimeRef = firebase.database().ref('/nongiot2_pic/current_time');
       currentTimeRef.on('value', onImageChange);
 
       return () => {
@@ -52,8 +52,6 @@ export default function SampleView() {
       return null;
     }
   
-    
-
   return (
     <ScrollView style={styles.container}>
       <View style={styles.header}>
