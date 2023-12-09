@@ -31,12 +31,16 @@ export default function Home_Test() {
   const [data, setData] = useState([]);
   const [showAlert, setShowAlert] = useState(false);
 
+//   const [warn_temp_low, set_warn_temp_low] = useState(15);
+//   const [warn_temp_high, set_warn_temp_high] = useState(20);
+
   // 센서 데이터값 확인해 위험 판단   
   useEffect(() => {
-    firebase.database().ref('/').on('value', (snapshot) => {
+    firebase.database().ref('/nongiot1').on('value', (snapshot) => {
       let value = snapshot.val();
       setData(value);
 
+      // value 존재 확인, value.temperature 확인, value.temperature 임계값 검사
       if (value && value.temperature && value.temperature >= 20) {
         setShowAlert(true);
       } else {

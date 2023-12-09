@@ -8,28 +8,66 @@ export default function SampleView() {
     const [imageUrl, setImageUrl] = useState(null);
 
     useEffect(() => {
-        firebase.database().ref('/').on('value', (snapshot) => {
-        setData(snapshot.val());
-        });
+      const fetchData = () => {
+        firebase.database().ref('/nongiot1_realtime').on('value', (snapshot) => {
+          setData(snapshot.val());
+          });
+      };
 
-        // Clean-up function
-        return () => {
-        firebase.database().ref('/').off('value');
-        };
+      fetchData();
+
+      // Clean-up function
+      return () => {
+      firebase.database().ref('/nongiot1_realtime').off('value');
+      };
     }, []);
 
+    // 이미지 한번만 불러오는 함수
+    // useEffect(() => {
+    //   const loadImage = async () => {
+    //     const url = await firebase.storage().ref('test.jpg').getDownloadURL();
+    //     setImageUrl(url);
+    //   };
+  
+    //   loadImage();
+    // }, []);
+  
+    // if (!imageUrl) {
+    //   return null;
+    // }
+
+    // 업데이트 된 이미지 자동으로 불러오는 함수
     useEffect(() => {
       const loadImage = async () => {
-        const url = await firebase.storage().ref('test.jpg').getDownloadURL();
-        setImageUrl(url);
+        try {
+          const url = await firebase.storage().ref('test.jpg').getDownloadURL();
+          setImageUrl(url);
+        } catch (error) {
+          console.error('이미지 불러오기 오류:', error);
+        }
+      };
+  
+      const onImageChange = () => {
+        loadImage();
       };
   
       loadImage();
-    }, []);
+  
+      // Listen for changes in nongiot1_pic/current_time node
+      const currentTimeRef = firebase.database().ref('/nongiot1_pic/current_time');
+      currentTimeRef.on('value', onImageChange);
+
+      // Cleanup function to remove the listener
+      return () => {
+        currentTimeRef.off('value', onImageChange);
+      };
+    }, []); // 마운트 시에만 실행되도록 빈 의존성 배열
   
     if (!imageUrl) {
       return null;
     }
+  
+    
 
   return (
     <ScrollView style={styles.container}>
