@@ -1,4 +1,3 @@
-// TodoList.js
 import React, { useState } from 'react';
 import { Text, View, ScrollView, TextInput, Button, TouchableOpacity, Alert, StyleSheet } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';

@@ -1,10 +1,8 @@
-// Weather.js
 import React, { useEffect, useState } from 'react';
 import { Text, View, ScrollView, StyleSheet } from 'react-native';
 import Swiper from 'react-native-swiper';
 import { Fontisto } from '@expo/vector-icons';
 import { MaterialIcons } from '@expo/vector-icons';
-
 
 const weather_kor = {
     Clouds: "흐림", 
@@ -26,7 +24,17 @@ const weather_kor = {
   }
 
 const Weather = ({ weatherData }) => {
-
+  // 날짜 계산
+  // const date = new Date();
+  // const firstday = `${date.getMonth() + 1}월 ${date.getDate()}일`;
+  // date.setDate(date.getDate() + 1);
+  // const secondday = `${date.getMonth() + 1}월 ${date.getDate()}일`;
+  // date.setDate(date.getDate() + 1);
+  // const thirdday = `${date.getMonth() + 1}월 ${date.getDate()}일`;
+  // date.setDate(date.getDate() + 1);
+  // const fourthday = `${date.getMonth() + 1}월 ${date.getDate()}일`;
+  // date.setDate(date.getDate() + 1);
+  // const fifthday = `${date.getMonth() + 1}월 ${date.getDate()}일`;
   const date = new Date();
   const days = Array.from({ length: 5 }, (_, i) => {
     date.setDate(date.getDate() + (i === 0 ? 0 : 1));
@@ -58,8 +66,6 @@ const WeatherBox = ({ day, weatherData }) => {
     </View>
   );
 };
-
-
 
 const styles = StyleSheet.create({
     weather_container: {
