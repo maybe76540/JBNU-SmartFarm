@@ -8,6 +8,7 @@ export default function Module2() {
     const [data, setData] = useState([]);
     const [imageUrl, setImageUrl] = useState(null);
     const [temp_for_graph, setTemp_for_graph] = useState([]);
+    const [humid_for_graph, setHumid_for_graph] = useState([]);
 
     useEffect(() => {
       const fetchData = () => {
@@ -51,26 +52,31 @@ useEffect(() => {
   };
 }, [imageUrl]); // imageUrl이 변경될 때만 실행
 
-// 그래프
-useEffect(() => {
-  const fetchData = async () => {
-    const snapshot = await firebase
-      .database()
-      .ref('/nongiot2_historical')
-      .once('value');
+  // 그래프
+  useEffect(() => {
+    const fetchData = async () => {
+      const snapshot = await firebase
+        .database()
+        .ref('/nongiot2_historical')
+        .once('value');
 
-    const dataArr = [];
-    snapshot.forEach((childSnapshot) => {
-      const key = childSnapshot.key;
-      const values = childSnapshot.val();
-      dataArr.push({ key, ...values });
-    });
+      const tempDataArr = [];
+      const humidDataArr = [];
 
-    setTemp_for_graph(dataArr);
-  };
+      snapshot.forEach((childSnapshot) => {
+        const key = childSnapshot.key;
+        const values = childSnapshot.val();
 
-  fetchData();
-}, [imageUrl]); // imageUrl이 변경될 때만 실행
+        tempDataArr.push({ key, temperature: values.temperature });
+        humidDataArr.push({ key, humidity: values.humidity });
+      });
+
+      setTemp_for_graph(tempDataArr);
+      setHumid_for_graph(humidDataArr);
+    };
+
+    fetchData();
+  }, [imageUrl]); // imageUrl이 변경될 때만 실행
   
   return (
     <ScrollView style={styles.container}>
@@ -169,6 +175,43 @@ useEffect(() => {
             width={400}
             height={300}
             yAxisLabel="°C"
+            xAxisLabel='Time'
+            chartConfig={{
+              backgroundColor: '#000000',
+              backgroundGradientFrom: '#000000',
+              backgroundGradientTo: '#000000',
+              decimalPlaces: 2,
+              color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+              labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+              style: {
+                borderRadius: 16,
+              },
+              propsForDots: {
+                r: '1',
+                strokeWidth: '1',
+                stroke: '#ffa726',
+              },
+            }}
+          />
+        )}
+      </View>
+
+      {/* 습도 그래프 */}
+      <View style={{marginTop: 20}}>
+        <Text style={{ fontSize: 25, fontWeight: 500 }}>Module2 습도 데이터 그래프</Text>
+        {humid_for_graph.length > 0 && (
+          <LineChart
+            data={{
+              labels: humid_for_graph.map((entry) => entry.current_time),
+              datasets: [
+                {
+                  data: humid_for_graph.map((entry) => entry.humidity),
+                },
+              ],
+            }}
+            width={400}
+            height={300}
+            yAxisLabel="%"
             xAxisLabel='Time'
             chartConfig={{
               backgroundColor: '#000000',
