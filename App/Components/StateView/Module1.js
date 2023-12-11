@@ -28,7 +28,7 @@ export default function Module1() {
     useEffect(() => {
       const loadImage = async () => {
         try {
-          const url = await firebase.storage().ref('test.jpg').getDownloadURL();
+          const url = await firebase.storage().ref('nongiot1_pic.jpg').getDownloadURL();
           setImageUrl(url);
         } catch (error) {
           console.error('이미지 불러오기 오류:', error);
@@ -147,12 +147,16 @@ export default function Module1() {
       </View>
 
       <View style={styles.imageView}>
-        <Image source={{ uri: imageUrl }} style={styles.imageStyle} />
+        <Text style={{ fontSize: 25, fontWeight: 500 }}>Module1 실시간 카메라 화면</Text>
+        <View>
+          <Image source={{ uri: imageUrl }} style={styles.imageStyle} />
+        </View>
       </View>
+      
 
       {/* 그래프 */}
-      <View>
-        <Text>Module1 온도 데이터 그래프:</Text>
+      <View style={{marginTop: 20}}>
+        <Text style={{ fontSize: 25, fontWeight: 500 }}>Module1 온도 데이터 그래프</Text>
         {temp_for_graph.length > 0 && (
           <LineChart
             data={{
@@ -164,12 +168,13 @@ export default function Module1() {
               ],
             }}
             width={400}
-            height={220}
+            height={300}
             yAxisLabel="°C"
+            xAxisLabel='Time'
             chartConfig={{
-              backgroundColor: '#e26a00',
-              backgroundGradientFrom: '#fb8c00',
-              backgroundGradientTo: '#ffa726',
+              backgroundColor: '#000000',
+              backgroundGradientFrom: '#000000',
+              backgroundGradientTo: '#000000',
               decimalPlaces: 2,
               color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
               labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
@@ -177,8 +182,8 @@ export default function Module1() {
                 borderRadius: 16,
               },
               propsForDots: {
-                r: '6',
-                strokeWidth: '2',
+                r: '1',
+                strokeWidth: '1',
                 stroke: '#ffa726',
               },
             }}
@@ -191,33 +196,38 @@ export default function Module1() {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#fdf',
+    backgroundColor: '#fff',
   },
   header: {
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
     padding: 10,
+    // borderBottomColor: 'black',
+    // borderBottomWidth: 3,
   },
   stateBox: {
     flexDirection: 'row',
     flexWrap: 'wrap',
     justifyContent: 'center',
-    backgroundColor: '#ffa'
+    backgroundColor: '#fff'
   },
   square: {
     width: '45%',
     height: '30%',
     aspectRatio: 1,
-    backgroundColor: 'lightgrey',
+    backgroundColor: '#E6E6E6',
     margin: '2.5%',
     justifyContent: 'center',
     alignItems: 'center',
+    borderColor: 'black',
+    borderWidth: 1,
   },
   imageView: {
     justifyContent: 'center',
     width: "100%",
     height: 250,
+    marginTop: 20,
   },
   imageStyle: {
     width: "100%",

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { View, ScrollView, StyleSheet, Alert, Text, Linking, Image, TouchableWithoutFeedback } from 'react-native';
+import { View, ScrollView, StyleSheet, Alert, Text, Linking, Image, TouchableWithoutFeedback, 
+  TouchableOpacity } from 'react-native';
 import Swiper from 'react-native-swiper'
 import useLocation from '../Map/useLocation';
 import firebase from 'firebase/compat/app';
@@ -42,31 +43,105 @@ export default function Home() {
   const [weatherData, setWeatherData] = useState(null);
   const [entries, setEntries] = useState([]);
   const [input, setInput] = useState('');
-  const [data, setData] = useState([]);
-  const [showAlert, setShowAlert] = useState(false);
-
-//   const [warn_temp_low, set_warn_temp_low] = useState(15);
-//   const [warn_temp_high, set_warn_temp_high] = useState(20);
+  // const [data, setData] = useState([]);
+  // const [showAlert, setShowAlert] = useState(false);
+  // const [low_thresholds, setLow_Thresholds] = useState({
+  //   temperature: 20,
+  //   humidity: 40,
+  // });
+  // const [high_thresholds, setHigh_Thresholds] = useState({
+  //   temperature: 25,
+  //   humidity: 80,
+  // });
+  // const [showLowTempAlert, setshowLowTempAlert] = useState(false);
+  // const [showHighTempAlert, setshowHighTempAlert] = useState(false);
+  // const [showLowHumidAlert, setShowLowHumidAlert] = useState(false);
+  // const [showHighHumidAlert, setShowHighHumidAlert] = useState(false);
+  // const [isModalVisible, setModalVisible] = useState(false);
+  // const [selectedThreshold, setSelectedThreshold] = useState('');
+  // const [newThresholdValue, setNewThresholdValue] = useState('');
 
   // 센서 데이터값 확인해 위험 판단   
-  useEffect(() => {
-    firebase.database().ref('/nongiot1').on('value', (snapshot) => {
-      let value = snapshot.val();
-      setData(value);
+  // useEffect(() => {
+  //   firebase.database().ref('/nongiot1').on('value', (snapshot) => {
+  //     let value = snapshot.val();
+  //     setData(value);
 
-      // value 존재 확인, value.temperature 확인, value.temperature 임계값 검사
-      if (value && value.temperature && value.temperature >= 20) {
-        setShowAlert(true);
-      } else {
-        setShowAlert(false);
-      }
-    });
+  //     // value 존재 확인, value.temperature 확인, value.temperature 임계값 검사
+  //     // 온도 임계값 확인
+  //     if (value && value.temperature && value.temperature <= low_thresholds.temperature) {
+  //       setshowLowTempAlert(true);
+  //     } else {
+  //       setshowLowTempAlert(false);
+  //     }
+  //     if (value && value.temperature && value.temperature >= high_thresholds.temperature) {
+  //       setshowHighTempAlert(true);
+  //     } else {
+  //       setshowHighTempAlert(false);
+  //     }
 
-    // Clean-up function
-    return () => {
-      firebase.database().ref('/').off('value');
-    };
-  }, []);
+  //     // 습도 임계값 확인
+  //     if (value && value.humidity && value.humidity <= low_thresholds.humidity) {
+  //       setShowLowHumidAlert(true);
+  //     } else {
+  //       setShowLowHumidAlert(false);
+  //     }
+  //     if (value && value.humidity && value.humidity >= high_thresholds.humidity) {
+  //       setShowHighHumidAlert(true);
+  //     } else {
+  //       setShowHighHumidAlert(false);
+  //     }
+  //   });
+
+  //   // Clean-up function
+  //   return () => {
+  //     firebase.database().ref('/').off('value', onDataChange);
+  //   };
+  // }, [low_thresholds, high_thresholds]);
+
+  // const handleLowThresholdChange = (sensor, newThreshold) => {
+  //   // 낮은 임계값 업데이트
+  //   setLow_Thresholds((prevThresholds) => ({
+  //     ...prevThresholds,
+  //     [sensor]: newThreshold,
+  //   }));
+  // };
+
+  // const handleHighThresholdChange = (sensor, newThreshold) => {
+  //   // 높은 임계값 업데이트
+  //   setHigh_Thresholds((prevThresholds) => ({
+  //     ...prevThresholds,
+  //     [sensor]: newThreshold,
+  //   }));
+  // };
+
+  // // 임계값 조절 모달 열기
+  // const handleOpenModal = () => {
+  //   setModalVisible(true);
+  //   Alert.alert('Button Pressed', 'TouchableOpacity was pressed!');
+  // };
+
+  // const handleCloseModal = () => {
+  //   setModalVisible(false);
+  // };
+
+  // const handleSaveThreshold = () => {
+  //   const newThreshold = parseInt(newThresholdValue);
+  //   if (!isNaN(newThreshold)) {
+  //     if (selectedThreshold === 'lowTemperature') {
+  //       handleLowThresholdChange('temperature', newThreshold);
+  //     } else if (selectedThreshold === 'highTemperature') {
+  //       handleHighThresholdChange('temperature', newThreshold);
+  //     } else if (selectedThreshold === 'lowHumidity') {
+  //       handleLowThresholdChange('humidity', newThreshold);
+  //     } else if (selectedThreshold === 'highHumidity') {
+  //       handleHighThresholdChange('humidity', newThreshold);
+  //     }
+  //     handleCloseModal();
+  //   } else {
+  //     Alert.alert('유효한 숫자를 입력하세요.');
+  //   }
+  // };
 
   useEffect(() => {
     if (!mapRegion) return;
@@ -100,6 +175,9 @@ export default function Home() {
     );
   };
 
+
+
+
   return (
     <View>
       <ScrollView style={{ width: "100%", height: "100%" }}>
@@ -109,24 +187,81 @@ export default function Home() {
           <Swiper showsButtons={false} autoplay showsPagination={false} autoplayTimeout={3}>
             <Banner imagePath={require('../../../assets/banner_kamis.png')} 
                     link="https://m.kamis.or.kr:4434/mobile/app/index.do"/>
-            <Banner imagePath={require('../../../assets/banner_kamis.png')} 
-                    link="https://m.kamis.or.kr:4434/mobile/app/index.do"/>
-            <Banner imagePath={require('../../../assets/banner_kamis.png')} 
-                    link="https://m.kamis.or.kr:4434/mobile/app/index.do"/>
-            {/* <View style={styles.slide1}>
-              <Text style={styles.swipertext}>광고 배너 1번, Hello Swiper</Text>
-            </View>
-            <View style={styles.slide2}>
-              <Text style={styles.swipertext}>광고 배너 2번, Hello ReactNative</Text>
-            </View>
-            <View style={styles.slide3}>
-              <Text style={styles.swipertext}>광고 배너 3번, Hello JavaScript</Text>
-            </View> */}
+            <Banner imagePath={require('../../../assets/banner_n-farm.png')} 
+                    link="https://www.n-farm.kr/"/>
+            <Banner imagePath={require('../../../assets/banner_subsidy.png')} 
+                    link="https://farmmorning.com/government-subsidy"/>
           </Swiper>
         </View>
 
         {/* 경고 알림 View */}
-        <AlertComponent data={data} showAlert={showAlert} />
+        
+        {/* <Animated.View style={{flexDirection: "row"}}>
+          <Text>온도 온도 온도 온도</Text>
+          {data && data.temperature ? (
+            <>
+              {showLowTempAlert && (
+                <View style={styles.alertBox}>
+                  <Text style={styles.alertText}>주의! 현재 온도가 너무 낮습니다.</Text>
+                </View>
+              )}
+              {showHighTempAlert && (
+                <View style={styles.alertBox}>
+                  <Text style={styles.alertText}>주의! 현재 온도가 너무 높습니다.</Text>
+                </View>
+              )}
+              {showLowHumidAlert && (
+                <View style={styles.alertBox}>
+                  <Text style={styles.alertText}>주의! 현재 습도가 너무 낮습니다.</Text>
+                </View>
+              )}
+              {showHighHumidAlert && (
+                <View style={styles.alertBox}>
+                  <Text style={styles.alertText}>주의! 현재 습도가 너무 높습니다.</Text>
+                </View>
+              )}
+            </>
+          ) : (
+            <Text>Loading...</Text>
+          )}
+          {/* 임계값 조절 버튼 */}
+          {/* <TouchableOpacity style={styles.thresholdButton} onPress={handleOpenModal}>
+            <Text>임계값 조절</Text>
+          </TouchableOpacity>
+
+          {/* 모달 */}
+          {/* <MyModal isOpen={isModalVisible} onClose={handleCloseModal} /> */}
+
+          
+          {/* <View>
+            <TouchableOpacity
+              style={styles.thresholdButton}
+              onPress={() => handleOpenModal('lowTemperature')}
+            >
+              <Text>낮은 온도 임계값: {low_thresholds.temperature}</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.thresholdButton}
+              onPress={() => handleOpenModal('highTemperature')}
+            >
+              <Text>높은 온도 임계값: {high_thresholds.temperature}</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.thresholdButton}
+              onPress={() => handleOpenModal('lowHumidity')}
+            >
+              <Text>낮은 습도 임계값: {low_thresholds.humidity}</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.thresholdButton}
+              onPress={() => handleOpenModal('highHumidity')}
+            >
+              <Text>높은 습도 임계값: {high_thresholds.humidity}</Text>
+            </TouchableOpacity>
+
+          </View> */}
+          
+        {/* </Animated.View> */}
 
         {/* 아래 View는 일기예보 View */}
         <Weather weatherData={weatherData} />
@@ -154,7 +289,7 @@ const styles = StyleSheet.create({
       marginVertical: 5,
       borderRadius: 20,
       borderColor: "black",
-      backgroundColor: "#fdd"
+      backgroundColor: "#E6E6E6"
     },
     weatherBox: {
       width: 100,
@@ -210,6 +345,8 @@ const styles = StyleSheet.create({
     swiper: {
       width: "100%",
       height: 100,
+      borderColor: 'black',
+      borderWidth: 2,
       // margin: 5,
     },
     slide: {

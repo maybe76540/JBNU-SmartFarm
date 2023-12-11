@@ -73,10 +73,10 @@ const styles = StyleSheet.create({
       // justifyContent: 'center',
       // alignItems: 'center',
       //flexDirection: 'row',
-      marginVertical: 5,
+      marginVertical: 10,
       borderRadius: 20,
       borderColor: "black",
-      backgroundColor: "#fdd"
+      backgroundColor: "#E6E6E6"
     },
     weatherBox: {
       width: 100,

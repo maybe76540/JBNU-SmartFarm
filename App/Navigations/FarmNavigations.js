@@ -31,7 +31,7 @@ export default function FarmNavigations({navigation}) {
           style={{ width: 200 }}
           anchor={<Button onPress={openMenu}
                   mode="contained"
-                  style={{ backgroundColor: '#82FA58' }}>{value || 'Select a Module'}</Button>}
+                  style={{ backgroundColor: '#A4A4A4' }}>{value || 'Select a Module'}</Button>}
         >
           <Menu.Item onPress={() => navigateToFarm('Module1')} title="Module1" />
           <Divider />

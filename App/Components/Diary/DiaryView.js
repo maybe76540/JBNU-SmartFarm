@@ -51,7 +51,7 @@ export default function DiaryView() {
         <Button title="등록" onPress={handleAdd} />
       </View>
       
-      <ScrollView style={{height: "100%"}}>
+      <ScrollView style={{height: "100%", backgroundColor: "#F4E8B6"}}>
         {entries.map((entry) => (
           <View style={styles.diaryView} key={entry.id}>
             <Text style={styles.text}>{entry.text}</Text>
@@ -96,6 +96,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 10,
     margin: 5,
+    backgroundColor: 'white',
   },
   addiView: {
     flexDirection: 'row', 
