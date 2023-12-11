@@ -1,4 +1,3 @@
-// TodoList.js
 import React, { useState } from 'react';
 import { Text, View, ScrollView, TextInput, Button, TouchableOpacity, Alert, StyleSheet } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
@@ -55,13 +54,13 @@ const styles = StyleSheet.create({
     },
     todoListView: {
       width: '100%',
-      height: 250,
+      height: 400,
       justifyContent: 'flex-start',
       alignItems: 'center',
       marginVertical: 5,
       borderRadius: 20,
       borderColor: "black",
-      backgroundColor: '#FCC',
+      backgroundColor: '#E6E6E6',
     },
     inputView: {
       flexDirection: 'row',
@@ -80,6 +79,7 @@ const styles = StyleSheet.create({
     },
     todoView: {
       //flexDirection: 'row',
+      backgroundColor: 'white',
       alignItems: 'center',
       borderColor: 'black',
       borderWidth: 1,

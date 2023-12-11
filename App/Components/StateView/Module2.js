@@ -1,90 +1,98 @@
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, View, ScrollView, Image } from 'react-native';
 import firebase from 'firebase/compat/app';  // modify this line
-// import '../../../firebaseConfig'; // import firebase configuration
+import '../../../firebaseConfig'; // import firebase configuration
 import { LineChart } from 'react-native-chart-kit';
+import { useIsFocused } from '@react-navigation/native';
 
-export default function SampleView() {
+export default function Module2() {
     const [data, setData] = useState([]);
     const [imageUrl, setImageUrl] = useState(null);
     const [temp_for_graph, setTemp_for_graph] = useState([]);
     const [humid_for_graph, setHumid_for_graph] = useState([]);
+    const isFocused = useIsFocused();
 
     useEffect(() => {
-      const fetchData = () => {
-        firebase.database().ref('/nongiot1_realtime').on('value', (snapshot) => {
-          setData(snapshot.val());
-          });
-      };
+      if (isFocused) {
+        const fetchData = () => {
+          firebase.database().ref('/nongiot2_realtime').on('value', (snapshot) => {
+            setData(snapshot.val());
+            });
+        };
 
-      fetchData();
+        fetchData();
 
-      // Clean-up function
-      return () => {
-      firebase.database().ref('/nongiot1_realtime').off('value');
-      };
-    }, []);
+        // Clean-up function
+        return () => {
+        firebase.database().ref('/nongiot2_realtime').off('value');
+        };
+      }
+    }, [isFocused]);
 
     // 업데이트 된 이미지 자동으로 불러오는 함수
     useEffect(() => {
-      const loadImage = async () => {
-        try {
-          const url = await firebase.storage().ref('test.jpg').getDownloadURL();
-          setImageUrl(url);
-        } catch (error) {
-          console.error('이미지 불러오기 오류:', error);
-        }
-      };
+      if (isFocused){
+        const loadImage = async () => {
+          try {
+            const url = await firebase.storage().ref('nongiot2_pic.jpg').getDownloadURL();
+            setImageUrl(url);
+          } catch (error) {
+            console.error('이미지 불러오기 오류:', error);
+          }
+        };
 
-      const onImageChange = () => {
+        const onImageChange = () => {
+          loadImage();
+        };
+
+        // nongiot1_pic/current_time 노드 변경 확인 리스너
+        const currentTimeRef = firebase.database().ref('/nongiot2_pic/current_time');
+        currentTimeRef.on('value', onImageChange);
+
+        // 이미지 로드 후에 데이터를 가져오는 훅
         loadImage();
-      };
 
-      // nongiot1_pic/current_time 노드 변경 확인 리스너
-      const currentTimeRef = firebase.database().ref('/nongiot1_pic/current_time');
-      currentTimeRef.on('value', onImageChange);
-
-      // 이미지 로드 후에 데이터를 가져오는 훅
-      loadImage();
-
-      return () => {
-        currentTimeRef.off('value', onImageChange);
-      };
-    }, [imageUrl]); // imageUrl이 변경될 때만 실행
+        return () => {
+          currentTimeRef.off('value', onImageChange);
+        };
+      }  
+    }, [imageUrl, isFocused]); // imageUrl이 변경될 때만 실행
 
     // 그래프
     useEffect(() => {
-      const fetchData = async () => {
-        const snapshot = await firebase
-          .database()
-          .ref('/nongiot1_historical')
-          .orderByChild('current_time')  // 'current_time'을 기준으로 정렬
-          .limitToLast(50)
-          .once('value');
+      if (isFocused) {
+        const fetchData = async () => {
+          const snapshot = await firebase
+            .database()
+            .ref('/nongiot2_historical')
+            .orderByChild('current_time')  // 'current_time'을 기준으로 정렬
+            .limitToLast(360)              // 한시간 동안의 데이터 가져와 그래프로 그림
+            .once('value');
 
-        const tempDataArr = [];
-        const humidDataArr = [];
+          const tempDataArr = [];
+          const humidDataArr = [];
 
-        snapshot.forEach((childSnapshot) => {
-          const key = childSnapshot.key;
-          const values = childSnapshot.val();
+          snapshot.forEach((childSnapshot) => {
+            const key = childSnapshot.key;
+            const values = childSnapshot.val();
 
-          tempDataArr.push({ key, temperature: values.temperature });
-          humidDataArr.push({ key, humidity: values.humidity });
-        });
+            tempDataArr.push({ key, temperature: values.temperature });
+            humidDataArr.push({ key, humidity: values.humidity });
+          });
 
-        setTemp_for_graph(tempDataArr);
-        setHumid_for_graph(humidDataArr);
-      };
+          setTemp_for_graph(tempDataArr);
+          setHumid_for_graph(humidDataArr);
+        };
 
-      fetchData();
+        fetchData();
+      }
     }, [imageUrl]); // imageUrl이 변경될 때만 실행
-
+  
   return (
     <ScrollView style={styles.container}>
       <View style={styles.header}>
           <Text style={{fontSize:30, fontWeight:'bold'}}>
-              Test Farm 현재 상태
+              Farm2 현재 상태
           </Text>
       </View>
       <View style={styles.stateBox}>
@@ -155,11 +163,15 @@ export default function SampleView() {
       </View>
 
       <View style={styles.imageView}>
-        <Image source={{ uri: imageUrl }} style={styles.imageStyle} />
+        <Text style={{ fontSize: 25, fontWeight: 500 }}>Module2 실시간 카메라 화면</Text>
+        <View>
+          <Image source={{ uri: imageUrl }} style={styles.imageStyle} />
+        </View>
       </View>
 
-      <View>
-        <Text>Module1 온도 데이터 그래프:</Text>
+      {/* 그래프 */}
+      <View style={{marginTop: 20}}>
+        <Text style={{ fontSize: 25, fontWeight: 500 }}>Module2 온도 데이터 그래프</Text>
         {temp_for_graph.length > 0 && (
           <LineChart
             data={{
@@ -171,7 +183,7 @@ export default function SampleView() {
               ],
             }}
             width={400}
-            height={220}
+            height={300}
             yAxisLabel="°C"
             xAxisLabel='Time'
             chartConfig={{
@@ -196,7 +208,7 @@ export default function SampleView() {
 
       {/* 습도 그래프 */}
       <View style={{marginTop: 20}}>
-        <Text style={{ fontSize: 25, fontWeight: 500 }}>Module1 습도 데이터 그래프</Text>
+        <Text style={{ fontSize: 25, fontWeight: 500 }}>Module2 습도 데이터 그래프</Text>
         {humid_for_graph.length > 0 && (
           <LineChart
             data={{
@@ -236,33 +248,38 @@ export default function SampleView() {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#fdf',
+    backgroundColor: '#fff',
   },
   header: {
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
     padding: 10,
+    // borderBottomColor: 'black',
+    // borderBottomWidth: 3,
   },
   stateBox: {
     flexDirection: 'row',
     flexWrap: 'wrap',
     justifyContent: 'center',
-    backgroundColor: '#ffa'
+    backgroundColor: '#fff'
   },
   square: {
     width: '45%',
     height: '30%',
     aspectRatio: 1,
-    backgroundColor: 'lightgrey',
+    backgroundColor: '#E6E6E6',
     margin: '2.5%',
     justifyContent: 'center',
     alignItems: 'center',
+    borderColor: 'black',
+    borderWidth: 1,
   },
   imageView: {
     justifyContent: 'center',
     width: "100%",
     height: 250,
+    marginTop: 20,
   },
   imageStyle: {
     width: "100%",

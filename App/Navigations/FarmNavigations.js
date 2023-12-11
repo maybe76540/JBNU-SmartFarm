@@ -2,10 +2,11 @@ import React, { useState } from 'react';
 import { StyleSheet, Text, View, SafeAreaView } from 'react-native';
 import { Button, Menu, Divider, Provider } from 'react-native-paper';
 import { createStackNavigator } from '@react-navigation/stack';
-import Farm1 from '../Components/StateView/Farm1'
-import Farm2 from '../Components/StateView/Farm2'
-import Farm3 from '../Components/StateView/Farm3'
+import Module1 from '../Components/StateView/Module1'
+import Module2 from '../Components/StateView/Module2'
 import TestView from '../Components/StateView/TestView'
+// import Farm1 from '../Components/StateView/Farm1'
+// import Farm2 from '../Components/StateView/Farm2'
 
 const Stack = createStackNavigator();
 
@@ -16,10 +17,10 @@ export default function FarmNavigations({navigation}) {
     const openMenu = () => setVisible(true);
     const closeMenu = () => setVisible(false);
   
-    const navigateToFarm = (farmName) => {
-      setValue(farmName);
+    const navigateToFarm = (moduleName) => {
+      setValue(moduleName);
       closeMenu();
-      navigation.navigate(farmName);
+      navigation.navigate(moduleName);
     }
   return (
     <Provider>
@@ -30,23 +31,22 @@ export default function FarmNavigations({navigation}) {
           style={{ width: 200 }}
           anchor={<Button onPress={openMenu}
                   mode="contained"
-                  style={{ backgroundColor: '#82FA58' }}>{value || 'Select a Farm'}</Button>}
+                  style={{ backgroundColor: '#A4A4A4' }}>{value || 'Select a Module'}</Button>}
         >
-          <Menu.Item onPress={() => navigateToFarm('Farm1')} title="Farm1" />
+          <Menu.Item onPress={() => navigateToFarm('Module1')} title="Module1" />
           <Divider />
-          <Menu.Item onPress={() => navigateToFarm('Farm2')} title="Farm2" />
+          <Menu.Item onPress={() => navigateToFarm('Module2')} title="Module2" />
           <Divider />
-          <Menu.Item onPress={() => navigateToFarm('Farm3')} title="Farm3" />
-          <Divider />
-          <Menu.Item onPress={() => navigateToFarm('TestView')} title="Test" />
+          {/* <Menu.Item onPress={() => navigateToFarm('Farm3')} title="Farm3" />
+          <Divider /> */}
+          {/* <Menu.Item onPress={() => navigateToFarm('TestView')} title="Test" /> */}
         </Menu>
       </View>
 
-      <Stack.Navigator initialRouteName="Farm1">
-        <Stack.Screen name="Farm1" component={Farm1} options={{headerShown: false}} />
-        <Stack.Screen name="Farm2" component={Farm2} options={{headerShown: false}} />
-        <Stack.Screen name="Farm3" component={Farm3} options={{headerShown: false}} />
-        <Stack.Screen name="TestView" component={TestView} options={{headerShown: false}} />
+      <Stack.Navigator initialRouteName="Module1">
+        <Stack.Screen name="Module1" component={Module1} options={{headerShown: false}} />
+        <Stack.Screen name="Module2" component={Module2} options={{headerShown: false}} />
+        {/* <Stack.Screen name="TestView" component={TestView} options={{headerShown: false}} /> */}
       </Stack.Navigator>
     </Provider>
   )
