@@ -27,10 +27,16 @@
         "config": {
           "googleMapsApiKey": "@env.GOOGLE_MAPS_API_KEY_FOR_ANDROID"
         }
-      }
+      },
+      "package": "com.maybe76540.SmartFarm_Capstone"
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "2842a340-e1e2-4e14-befa-b57106f6c0a7"
+      }
     }
   }
 }

@@ -4,7 +4,7 @@ import { View, ScrollView, StyleSheet, Alert, Text, Linking, Image, TouchableWit
 import Swiper from 'react-native-swiper'
 import useLocation from '../Map/useLocation';
 import firebase from 'firebase/compat/app';
-import '../../../firebaseConfig'; // import firebase configuration
+//import '../../../firebaseConfig'; // import firebase configuration
 import Weather from './Weather';
 import AlertComponent from './Alert';
 import TodoList from './TodoList.js';

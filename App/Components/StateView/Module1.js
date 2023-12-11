@@ -58,6 +58,8 @@ export default function Module1() {
         const snapshot = await firebase
           .database()
           .ref('/nongiot1_historical')
+          .orderByChild('current_time')  // 'current_time'을 기준으로 정렬
+          .limitToLast(360)              // 한시간 동안의 데이터 가져와 그래프로 그림
           .once('value');
 
         const tempDataArr = [];

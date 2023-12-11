@@ -39,14 +39,14 @@ export default function FarmNavigations({navigation}) {
           <Divider />
           {/* <Menu.Item onPress={() => navigateToFarm('Farm3')} title="Farm3" />
           <Divider /> */}
-          {/* <Menu.Item onPress={() => navigateToFarm('TestView')} title="Test" /> */}
+          <Menu.Item onPress={() => navigateToFarm('TestView')} title="Test" />
         </Menu>
       </View>
 
       <Stack.Navigator initialRouteName="Module1">
         <Stack.Screen name="Module1" component={Module1} options={{headerShown: false}} />
         <Stack.Screen name="Module2" component={Module2} options={{headerShown: false}} />
-        {/* <Stack.Screen name="TestView" component={TestView} options={{headerShown: false}} /> */}
+        <Stack.Screen name="TestView" component={TestView} options={{headerShown: false}} />
       </Stack.Navigator>
     </Provider>
   )
